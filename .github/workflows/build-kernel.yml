@@ -439,3 +439,89 @@ jobs:
        asset_path: kernel_workspace/boot.img
        asset_name: boot${{ env.LOCALVERSION }}${{ env.UPLOADNAME }}-{{ env.DEVICE }}-${{ env.BUILD_TIME }}.img
        asset_content_type: application/octet-stream
+             - name: Add NetHunter Kernel Configs (Full Features)
+        if: env.ENABLE_NETHUNTER_CONFIGS == 'true'
+        run: |
+          cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
+          DEFCONFIG_PATH=arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+          
+          # وظيفة ذكية لتعديل الإعدادات دون تكرار
+          set_config() {
+            # حذف السطر القديم سواء كان مفعلاً أو معطلاً
+            sed -i "/$1/d" $DEFCONFIG_PATH
+            # إضافة الإعداد الجديد
+            echo "$1=$2" >> $DEFCONFIG_PATH
+          }
+
+          # ========== 1. CAN Bus Support (Car Hacking) ==========
+          set_config "CONFIG_CAN" "y"
+          set_config "CONFIG_CAN_RAW" "y"
+          set_config "CONFIG_CAN_BCM" "y"
+          set_config "CONFIG_CAN_GW" "y"
+          set_config "CONFIG_CAN_ISOTP" "m"
+          set_config "CONFIG_CAN_J1939" "m"
+          
+          # ========== 2. USB Gadget & HID (The Heart of NetHunter) ==========
+          set_config "CONFIG_USB_GADGET" "y"
+          set_config "CONFIG_USB_CONFIGFS" "y"
+          set_config "CONFIG_USB_CONFIGFS_SERIAL" "y"
+          set_config "CONFIG_USB_CONFIGFS_ACM" "y"
+          set_config "CONFIG_USB_CONFIGFS_OBEX" "y"
+          set_config "CONFIG_USB_CONFIGFS_NCM" "y"
+          set_config "CONFIG_USB_CONFIGFS_ECM" "y"
+          set_config "CONFIG_USB_CONFIGFS_RNDIS" "y"
+          set_config "CONFIG_USB_CONFIGFS_MASS_STORAGE" "y"
+          set_config "CONFIG_USB_CONFIGFS_F_FS" "y"
+          set_config "CONFIG_USB_CONFIGFS_F_HID" "y"
+          set_config "CONFIG_USB_CONFIGFS_F_MTP" "y"
+          set_config "CONFIG_USB_CONFIGFS_F_PTP" "y"
+          set_config "CONFIG_USB_CONFIGFS_F_ACC" "y"
+          set_config "CONFIG_USB_HID" "y"
+          set_config "CONFIG_USB_HIDDEV" "y"
+          set_config "CONFIG_HIDRAW" "y"
+          set_config "CONFIG_HID_GENERIC" "y"
+          
+          # ========== 3. Bluetooth Support (BlueBorne & Spoofing) ==========
+          set_config "CONFIG_BT" "y"
+          set_config "CONFIG_BT_RFCOMM" "y"
+          set_config "CONFIG_BT_RFCOMM_TTY" "y"
+          set_config "CONFIG_BT_BNEP" "y"
+          set_config "CONFIG_BT_HIDP" "y"
+          set_config "CONFIG_BT_HCIBTUSB" "y"
+          set_config "CONFIG_BT_HCIUART" "y"
+          set_config "CONFIG_BT_HCIUART_H4" "y"
+          set_config "CONFIG_BT_LE" "y"
+          
+          # ========== 4. Networking & Pentesting (Packet Injection) ==========
+          set_config "CONFIG_PACKET" "y"
+          set_config "CONFIG_PACKET_DIAG" "y"
+          set_config "CONFIG_NETFILTER" "y"
+          set_config "CONFIG_NETFILTER_ADVANCED" "y"
+          set_config "CONFIG_NF_NAT" "y"
+          set_config "CONFIG_TUN" "y"
+          set_config "CONFIG_TAP" "y"
+          set_config "CONFIG_BRIDGE" "y"
+          set_config "CONFIG_CFG80211" "y"
+          set_config "CONFIG_MAC80211" "y"
+          set_config "CONFIG_CFG80211_WEXT" "y"
+          
+          # ========== 5. Advanced Security & BPF (Modern Tools) ==========
+          set_config "CONFIG_BPF_SYSCALL" "y"
+          set_config "CONFIG_BPF_JIT" "y"
+          set_config "CONFIG_HAVE_EBPF_JIT" "y"
+          set_config "CONFIG_NETLINK_DIAG" "y"
+          set_config "CONFIG_INET_DIAG" "y"
+          
+          # ========== 6. UART / Serial Support ==========
+          set_config "CONFIG_SERIAL_8250" "y"
+          set_config "CONFIG_SERIAL_8250_CONSOLE" "y"
+          set_config "CONFIG_SERIAL_8250_NR_UARTS" "4"
+          set_config "CONFIG_SERIAL_8250_RUNTIME_UARTS" "4"
+
+          # ========== 7. Module Support (Essential for NetHunter) ==========
+          set_config "CONFIG_MODULES" "y"
+          set_config "CONFIG_MODULE_UNLOAD" "y"
+          set_config "CONFIG_MODULE_FORCE_UNLOAD" "y"
+
+          echo "✅ All NetHunter Features and Dependencies Added!"
+          
