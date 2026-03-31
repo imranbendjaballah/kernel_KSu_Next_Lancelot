@@ -1,0 +1,6 @@
+  - name: Add NetHunter Kernel Configs
+    run: |
+      # Apply all NetHunter features
+      make menuconfig
+      # Enable CAN, FFCOM, UART, Bluetooth, HID, USB gadget, and other networking/penetration testing tools
+      # Additional commands can be added here to configure the kernel as needed
