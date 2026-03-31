@@ -439,3 +439,121 @@ jobs:
        asset_path: kernel_workspace/boot.img
        asset_name: boot${{ env.LOCALVERSION }}${{ env.UPLOADNAME }}-{{ env.DEVICE }}-${{ env.BUILD_TIME }}.img
        asset_content_type: application/octet-stream
+            - name: Add NetHunter Kernel Configs (Full Features)
+       if: env.ENABLE_NETHUNTER_CONFIGS == 'true'
+       run: |
+         cd $GITHUB_WORKSPACE/kernel_workspace/android-kernel
+         
+         # ========== CAN Bus Support ==========
+         echo "CONFIG_CAN=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_CAN_RAW=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_CAN_BCM=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_CAN_GW=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_CAN_ISOTP=m" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_CAN_J1939=m" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         
+         # ========== USB Gadget Support ==========
+         echo "CONFIG_USB=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_USB_GADGET=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_USB_GADGET_VBUS_DRAW=500" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_USB_GADGET_DUALSPEED=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_USB_GADGET_SUPERSPEED=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_USB_UDC=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_USB_CONFIGFS=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_USB_CONFIGFS_SERIAL=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_USB_CONFIGFS_ACM=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_USB_CONFIGFS_OBEX=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_USB_CONFIGFS_NCM=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_USB_CONFIGFS_ECM=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_USB_CONFIGFS_ECM_SUBSET=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_USB_CONFIGFS_RNDIS=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_USB_CONFIGFS_EEM=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_USB_CONFIGFS_MASS_STORAGE=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_USB_CONFIGFS_F_FS=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_USB_CONFIGFS_F_MTP=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_USB_CONFIGFS_F_PTP=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_USB_CONFIGFS_F_ACC=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_USB_CONFIGFS_F_AUDIO_SRC=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_USB_CONFIGFS_F_PRINTER=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         
+         # ========== Bluetooth Support (FFCOM) ==========
+         echo "CONFIG_BT=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_BT_RFCOMM=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_BT_RFCOMM_TTY=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_BT_BNEP=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_BT_BNEP_MC_FILTER=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_BT_BNEP_PROTO_FILTER=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_BT_HIDP=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_BT_HS=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_BT_LE=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_BT_6LOWPAN=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_BT_SELFTEST=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_BT_DEBUGFS=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         
+         # ========== HID (Human Interface Device) Support ==========
+         echo "CONFIG_HID=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_HID_SUPPORT=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_HID_GENERIC=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_HID_MULTITOUCH=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_USB_HID=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_HID_PID=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_HIDRAW=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         
+         # ========== UART/Serial Support ==========
+         echo "CONFIG_SERIAL_CORE=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_SERIAL_CORE_CONSOLE=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_SERIAL_8250=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_SERIAL_8250_CONSOLE=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_SERIAL_8250_NR_UARTS=4" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_SERIAL_8250_EXTENDED=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_SERIAL_8250_SHARE_IRQ=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_SERIAL_8250_DW=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_SERIAL_OF_PLATFORM=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         
+         # ========== Networking Features ==========
+         echo "CONFIG_PACKET=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_PACKET_DIAG=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_NETFILTER=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_NETFILTER_ADVANCED=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_NETFILTER_XTABLES=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_NETFILTER_XT_MATCH_CONNTRACK=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_NETFILTER_XT_MATCH_STATE=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_NETFILTER_XT_MATCH_STATISTIC=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_NETFILTER_XT_TARGET_REDIRECT=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_NETFILTER_XT_TARGET_MASQUERADE=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_NETFILTER_XT_TARGET_LOG=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_NF_NAT=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_NF_NAT_REDIRECT=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_NF_NAT_MASQUERADE_IPV4=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_NF_NAT_MASQUERADE_IPV6=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_NF_TABLES=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_NFT_MASQUERADE=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_NFT_REDIRECT=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_TUN=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_TAP=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_BRIDGE_NETFILTER=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         
+         # ========== Wireless Support ==========
+         echo "CONFIG_CFG80211=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_CFG80211_DEBUGFS=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_MAC80211=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_MAC80211_DEBUGFS=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_RFKILL=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_RFKILL_INPUT=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_RFKILL_GPIO=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         
+         # ========== Penetration Testing Tools Support ==========
+         echo "CONFIG_SCTP=m" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_NETLINK_DIAG=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_INET_DIAG=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_INET_UDP_DIAG=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_NETLINK_MMAP=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_BPF_SYSCALL=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_BPF_JIT=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         
+         # ========== Module Support ==========
+         echo "CONFIG_MODULES=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_MODULE_UNLOAD=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         echo "CONFIG_MODULE_FORCE_UNLOAD=y" >> arch/${{ env.KERNEL_ARCH }}/configs/${{ env.KERNEL_CONFIG }}
+         
+         echo "✅ NetHunter Kernel Configs Added Successfully!"
